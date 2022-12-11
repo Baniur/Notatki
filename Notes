@@ -1,3 +1,9 @@
+### AD Explorer ### WINDOWS
+//GUI
+
+### ADVANCED IP SCANNER ### WINDOWS
+//GUI
+
 ### ANDROID ADB ###
 adb connect IP:5555
 adb devices -l
@@ -15,6 +21,10 @@ Add IP address of android device
 4 (Access shell on phone)
 IP address again of android device
 
+### DIG ###
+dig ns domain //DNS enumeration
+dig @nshostname domain axfr //Zone transfer
+
 ### ENUM4LINUX ###
 enum4linux -u USERNAME -p PASSWORD -U IP // Users Enumeration
 enum4linux -u USERNAME -p PASSWORD -o IP // OS Enumeration
@@ -24,6 +34,9 @@ enum4linux -u USERNAME -p PASSWORD -S IP // Share Policy Information (SMB Shares
 
 ### FTP ###
 ftp IP
+
+### GLOBAL NETWORK INVENTORY ### WINDOWS
+//GUI
 
 ### HASHES ###
 https://crackstation.net/ //hash cracking
@@ -76,7 +89,29 @@ john --show hashfile/hash
 use auxiliary/scanner/smb/smb_version
 use auxiliary/scanner/ftp/ftp_version
 
-### NMAP ###
+### nbtstat ### WINDOWS
+nbtstat -a IP //-a = displays the NetBIOS name table of remote host, IP = remote host IP
+nbtstat -c //-c =	Displays the contents of the NetBIOS name cache, the table of NetBIOS names and their resolved IP addresses
+
+### net ### WINDOWS
+net localgroup
+net share
+net use 
+net user
+net user /domain
+net user [username]
+net user [username] /domain
+
+### NETBIOS ENUMERATOR ### WINDOWS
+// GUI
+
+### NIKTO ###
+nikto -H //displays available options
+nikto -h DOMAIN -Tuning x //-x = include all options except specified
+nikto -h DOMAIN -Cgidirs all
+nikto -h DOMAIN -o FILENAME -F txt //saves to file
+
+### NMAP / ZENMAP ###
 Scan a single IP nmap 192.168.1.1
 Scan a host nmap www.testhostname.com
 Scan a range of IPs nmap 192.168.1.1-20
@@ -112,20 +147,37 @@ nmap --data-length LENGTH IP
 nmap --randomize-hosts IP
 nmap --badsum IP
 
+nmap -sV -v --script nbstat.nse IP
+nmap -sU -p 137 --script nbstat.nse IP //NetBIOS enumeration
+
+nmap -sU -p 161 IP //SNMP
+
+nmap -p 2049 IP //NFS enumeration
+
 ### NETDISCOVER ###
 netdiscover -r IP/MASK
 
-### NETWORK TOPOLOGY MAPPER ###
+### NETWORK TOPOLOGY MAPPER ### WINDOWS
 //network mapping tool - GUI
 
 ### RESPONDER ###
+git clone https://github.com/SpiderLabs/Responder
+
 responder -I INTERFACE
 usr\share\responder\logs //logs location
+
+### RPCSCAN ###
+github clone https://github.com/hegusung/RPCScan
+
+python3 rpc-scan.py IP --rpc
 
 ### SMB ###
 smbmap -H IP -R
 smbclient -L IP
 smbclient \\\\IP\\share
+
+### SNMP-CHECK ###
+snmp-check IP //SNMP enumeration
 
 ### SNOW ###
 SNOW.EXE -C -p PASSWORD FILE
@@ -160,6 +212,11 @@ blah';create database mydatabase;
 
 Execute cmd from login
 blah';exec master..xp_cmdshell 'ping www.example.com -l 65000 -t'; --
+
+### SUPERENUM###
+git clone https://github.com/p4pentest/SuperEnum
+
+./superenum
 
 ### TELNET ###
 telnet IP
