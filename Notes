@@ -1,4 +1,4 @@
-## ANDROID ADB ###
+### ANDROID ADB ###
 adb connect IP:5555
 adb devices -l
 adb shell
@@ -9,14 +9,13 @@ sudo apt install adb
 
 git clone https://github.com/aerosol-can/PhoneSploit
 
-cd phonesploit
 python3 phonesploit.py
 3 (Connect to new phone)
 Add IP address of android device
 4 (Access shell on phone)
 IP address again of android device
 
-### Enum4Linux ###
+### ENUM4LINUX ###
 enum4linux -u USERNAME -p PASSWORD -U IP // Users Enumeration
 enum4linux -u USERNAME -p PASSWORD -o IP // OS Enumeration
 enum4linux -u USERNAME -p PASSWORD -P IP // Password Policy Information
@@ -66,6 +65,16 @@ john --show hashfile/hash
 
 ### METASPLOIT ###
 
+# msfdb init
+# service postgresql start
+> nmap -Pn -sS -A -oX Test IP/IP_RANGE
+> db_import Test
+> hosts //hosts listing
+> services //services (ports, proto, name, state, info) listing
+> hosts -o PATH_TO_FILE.csv //saving output to file
+
+use auxiliary/scanner/smb/smb_version
+use auxiliary/scanner/ftp/ftp_version
 
 ### NMAP ###
 Scan a single IP nmap 192.168.1.1
